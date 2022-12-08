@@ -215,7 +215,8 @@ class SelectWindow(tk.Frame):
                                    selectmode=tk.MULTIPLE,
                                    exportselection=False,
                                    fg=self.DARKGREEN,
-                                   bg=self.LIGHTGREEN)
+                                   bg=self.LIGHTGREEN,
+                                   selectbackground="white")
         self.removers.pack(fill=tk.BOTH,
                            expand=True,
                            pady=3,
