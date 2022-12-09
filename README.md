@@ -12,3 +12,4 @@ This project uses the following:
 ![FileSelected](screenshots/FileSelected.png)
 ![FileParsed](screenshots/FileParsed.png)
 ![RefineSearch](screenshots/RefineSearch.png)
+![Instructions](screenshots/Instructions.png)
