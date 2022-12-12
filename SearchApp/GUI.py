@@ -74,20 +74,11 @@ class App(tk.Frame):
                                   fg=self.DARKGREEN)
         self.entry_box.pack(side=tk.RIGHT)
 
-        # Button area
-        self.button_frame = tk.Frame(self.parse_frame)
-        self.button_frame.pack(pady=3)
-        self.time_btn = tk.Button(self.button_frame,
-                                  text="Check time",
-                                  command=self.check_time,
-                                  fg=self.DARKGREEN)
-        self.time_btn.pack(side=tk.LEFT)
-        self.parse_btn = tk.Button(self.button_frame,
+        self.parse_btn = tk.Button(self.parse_frame,
                                    text="Parse",
                                    command=self.start_parse,
                                    fg=self.DARKGREEN)
-        self.parse_btn.pack(side=tk.RIGHT,
-                            pady=3)
+        self.parse_btn.pack(pady=3)
 
         # Listbox to hold the results of the parse
         self.list_show_label = tk.Label(self.parent,
@@ -143,7 +134,7 @@ class App(tk.Frame):
                         self.links.append(row[link_col])
                     line_count += 1
 
-    def check_time(self):
+    def start_parse(self):
         try:
             number = int(self.entry_box.get())
         except:
@@ -153,20 +144,10 @@ class App(tk.Frame):
                 number = min(number, len(self.links))
                 min_sec = number * self.time_lb
                 max_sec = number * self.time_ub
-                messagebox.showinfo("Info", f'Parsing should take between {min_sec} and {max_sec} seconds')
-            else:
-                messagebox.showerror("Error", "Please select a file to parse.")
-
-    def start_parse(self):
-        try:
-            number = int(self.entry_box.get())
-        except:
-            messagebox.showerror("Error", "Please enter a number of links to parse.")
-        else:
-            if self.links:
-                number = min(number, len(self.links))
-                self.list_show.delete("0", "end")
-                threading.Thread(target=self.parse, args=[number]).start()
+                if messagebox.askokcancel("askokcancel",
+                                          f'Parsing should take between {min_sec} and {max_sec} seconds. Continue?'):
+                    self.list_show.delete("0", "end")
+                    threading.Thread(target=self.parse, args=[number]).start()
             else:
                 messagebox.showerror("Error", "Please select a file to parse")
 
@@ -228,8 +209,8 @@ class InfoWindow(tk.Frame):
         self.label4.bind('<Configure>', lambda e: self.label4.config(wraplength=self.label4.winfo_width()))
 
         self.label5 = tk.Label(self.parent,
-                               text="4. Choose a number of results to parse. You can check how long the parsing will "
-                                    "take by pressing the 'Check time' button.",
+                               text="4. Choose a number of results to parse. You will be shown how long the parsing "
+                                    "will take and may decide to cancel.",
                                fg=self.DARKGREEN)
         self.label5.pack(anchor="w")
         self.label5.bind('<Configure>', lambda e: self.label5.config(wraplength=self.label5.winfo_width()))
