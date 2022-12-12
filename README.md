@@ -10,6 +10,7 @@ This project uses the following:
 
 ![InitalPage](screenshots/InitialPage.png)
 ![FileSelected](screenshots/FileSelected.png)
+![ParseWarning](screenshots/ParseWarning.png)
 ![FileParsed](screenshots/FileParsed.png)
 ![RefineSearch](screenshots/RefineSearch.png)
 ![Instructions](screenshots/Instructions.png)
