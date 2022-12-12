@@ -1,4 +1,4 @@
-# Play That Song
+# Patent Analysis Tool
 
 This is an app to allow a user to parse a csv of patents from Google Patents. The parser returns a lost of classes from 
 the patents, showing their name, description, and frequency. Users can refine their search by adding and removing 
@@ -12,3 +12,4 @@ This project uses the following:
 ![FileSelected](screenshots/FileSelected.png)
 ![FileParsed](screenshots/FileParsed.png)
 ![RefineSearch](screenshots/RefineSearch.png)
+![Instructions](screenshots/Instructions.png)

@@ -3,7 +3,9 @@ import threading
 import webbrowser
 import tkinter as tk
 from tkinter import messagebox
+from tkinter import Toplevel
 from tkinterdnd2 import DND_FILES, TkinterDnD
+
 from SearchApp.ConcurrentScraper import *
 
 
@@ -20,8 +22,19 @@ class App(tk.Frame):
         self.classes = {}
         self.first_url = ""
 
+        # Info frame at top
+        self.info_frame = tk.Frame(self.parent)
+        self.info_frame.pack(side=tk.TOP, pady=3)
+
+        # Info button at top
+        self.info_btn = tk.Button(self.info_frame,
+                                  text="Info",
+                                  command=self.open_info,
+                                  fg=self.DARKGREEN)
+        self.info_btn.pack(side=tk.LEFT)
+
         # Info label at top
-        self.top_info = tk.Label(self.parent,
+        self.top_info = tk.Label(self.info_frame,
                                  fg=self.DARKGREEN,
                                  text="Drop csv files from Google Patents here:")
         self.top_info.pack(pady=3)
@@ -140,7 +153,7 @@ class App(tk.Frame):
                 number = min(number, len(self.links))
                 min_sec = number * self.time_lb
                 max_sec = number * self.time_ub
-                messagebox.showinfo("Info",f'Parsing should take between {min_sec} and {max_sec} seconds')
+                messagebox.showinfo("Info", f'Parsing should take between {min_sec} and {max_sec} seconds')
             else:
                 messagebox.showerror("Error", "Please select a file to parse.")
 
@@ -171,12 +184,92 @@ class App(tk.Frame):
             SelectWindow(search_root, self.classes, self.first_url).pack(side="top", fill="both", expand=True)
             search_root.mainloop()
 
+    def open_info(self):
+        info_root = Toplevel()
+        InfoWindow(info_root).pack(side=tk.TOP, fill=tk.BOTH, expand=True)
+        info_root.mainloop()
+
+
+class InfoWindow(tk.Frame):
+    def __init__(self, parent):
+        super().__init__()
+        self.parent = parent
+        self.parent.geometry('700x600')
+
+        self.DARKGREEN = "#252D29"
+        self.LIGHTGREEN = "#B6CDC4"
+
+        self.thumbnail_size = 700
+
+        self.label1 = tk.Label(self.parent,
+                               text="Welcome to the patent search analysis app! Use this app to analyze your google "
+                                    "patent search results and find a pool of patents most similar to your invention.",
+                               fg=self.DARKGREEN)
+        self.label1.pack(anchor="w")
+        self.label1.bind('<Configure>', lambda e: self.label1.config(wraplength=self.label1.winfo_width()))
+
+        self.label2 = tk.Label(self.parent,
+                               text="1. Do a simple keyword search on Google Patents (patents.google.com).",
+                               fg=self.DARKGREEN)
+        self.label2.pack(anchor="w")
+        self.label2.bind('<Configure>', lambda e: self.label2.config(wraplength=self.label2.winfo_width()))
+
+        self.label3 = tk.Label(self.parent,
+                               text="2. Once you get a search result, click the 'Download' button on the top right. "
+                                    "If you see options, choose 'Download (CSV)'.",
+                               fg=self.DARKGREEN)
+        self.label3.pack(anchor="w")
+        self.label3.bind('<Configure>', lambda e: self.label3.config(wraplength=self.label3.winfo_width()))
+
+        self.label4 = tk.Label(self.parent,
+                               text="3. Drag and drop the downloaded csv file into the labeled area on the app.",
+                               fg=self.DARKGREEN)
+        self.label4.pack(anchor="w")
+        self.label4.bind('<Configure>', lambda e: self.label4.config(wraplength=self.label4.winfo_width()))
+
+        self.label5 = tk.Label(self.parent,
+                               text="4. Choose a number of results to parse. You can check how long the parsing will "
+                                    "take by pressing the 'Check time' button.",
+                               fg=self.DARKGREEN)
+        self.label5.pack(anchor="w")
+        self.label5.bind('<Configure>', lambda e: self.label5.config(wraplength=self.label5.winfo_width()))
+
+        self.label6 = tk.Label(self.parent,
+                               text="5. Once the results are parsed, they will appear in order of decreasing "
+                                    "frequency.",
+                               fg=self.DARKGREEN)
+        self.label6.pack(anchor="w")
+        self.label6.bind('<Configure>', lambda e: self.label6.config(wraplength=self.label6.winfo_width()))
+
+        self.label7 = tk.Label(self.parent,
+                               text="6. You can refine your search by pressing the 'Refine search' button. Choose the "
+                                    "most relevant classes to add to your search and/or choose the least relevant "
+                                    "classes to remove from your search. You can do this multiple times with the same "
+                                    "search results.",
+                               fg=self.DARKGREEN)
+        self.label7.pack(anchor="w")
+        self.label7.bind('<Configure>', lambda e: self.label7.config(wraplength=self.label7.winfo_width()))
+
+        self.label8 = tk.Label(self.parent,
+                               text="7. Continue until you have a small enough pool of patent to examine them yourself "
+                                    "and determine whether or not they are relevant to your invention.",
+                               fg=self.DARKGREEN)
+        self.label8.pack(anchor="w")
+        self.label8.bind('<Configure>', lambda e: self.label8.config(wraplength=self.label8.winfo_width()))
+
+        self.label9 = tk.Label(self.parent,
+                               text="Happy searching!",
+                               fg=self.DARKGREEN)
+        self.label9.pack(anchor="w")
+        self.label9.bind('<Configure>', lambda e: self.label9.config(wraplength=self.label9.winfo_width()))
+
 
 class SelectWindow(tk.Frame):
     # todo: don't show params as addable if they're included in the searched url
     def __init__(self, parent, classes, first_url):
         super().__init__()
         self.parent = parent
+        self.parent.geometry('700x600')
 
         self.DARKGREEN = "#252D29"
         self.LIGHTGREEN = "#B6CDC4"
@@ -256,5 +349,6 @@ class SelectWindow(tk.Frame):
 
 if __name__ == "__main__":
     root = TkinterDnD.Tk()
+    root.geometry('700x600')
     App(root).pack(side="top", fill="both", expand=True)
     root.mainloop()
