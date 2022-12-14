@@ -6,7 +6,7 @@ from tkinter import messagebox
 from tkinter import Toplevel
 from tkinterdnd2 import DND_FILES, TkinterDnD
 
-from SearchApp.ConcurrentScraper import *
+from ConcurrentScraper import *
 
 
 class App(tk.Frame):
